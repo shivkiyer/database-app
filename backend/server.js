@@ -1,28 +1,26 @@
-var sequelize = require('sequelize');
+var express = require('express');
 
-var sqlConnection = new sequelize({
-  database: 'dellstore2',
-  username: 'databaseuser',
-  password: 'database123',
-  host: 'localhost',
-  dialect: 'postgres',
-  operatorsAliases: sequelize.op,
-  logging: false,
+var sqlConnection = require('./db/config').sqlConnection;
 
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 60000,
-    idle: 60000
-  }
-});
+var app = express();
+var port = process.env.PORT||3000;
 
 sqlConnection.authenticate().then(
   () => {
     console.log("Connection to SQL database established");
+    sqlConnection.close();
   }
 ).catch(
   (e) => {
     console.log(e);
   }
 );
+
+app.get('/', (req, res) => {
+  console.log("GET request on /");
+  res.send('Hello there!');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+})
