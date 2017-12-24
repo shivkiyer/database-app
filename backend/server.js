@@ -1,8 +1,12 @@
 var express = require('express');
+var path = require('path');
 
 var sqlConnection = require('./db/config').sqlConnection;
 
 var app = express();
+var htmlPATH = path.join(path.join(path.dirname(__dirname), 'frontend'), 'dist');
+app.use(express.static('/mnt/sda6/database-app/frontend/src/'));
+
 var port = process.env.PORT||3000;
 
 sqlConnection.authenticate().then(
