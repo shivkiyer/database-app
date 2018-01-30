@@ -12,13 +12,16 @@ var port = process.env.PORT||3000;
 sqlConnection.authenticate().then(
   () => {
     console.log("Connection to SQL database established");
-    sqlConnection.close();
   }
 ).catch(
   (e) => {
     console.log(e);
   }
 );
+
+var {categoriesList} = require('./db/methods/dellstore2');
+
+categoriesList();
 
 app.get('/', (req, res) => {
   console.log("GET request on /");
