@@ -19,9 +19,29 @@ sqlConnection.authenticate().then(
   }
 );
 
-var {categoriesList} = require('./db/methods/dellstore2');
+var {categoriesList,
+      customersList,
+      customerHistoryList,
+      inventoryList,
+      ordersList,
+      orderLinesList,
+      productsList,
+      reorderList} = require('./db/methods/dellstore2');
 
-categoriesList();
+
+// sqlConnection.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'").then(
+//   (results) => {
+//     console.log(results);
+//   }
+// ).catch(
+//   (e) => {
+//     console.log(e);
+//   }
+// );
+
+var dellstore2Models = require('./db/models/dellstore2');
+console.log(dellstore2Models);
+
 
 app.get('/', (req, res) => {
   console.log("GET request on /");
