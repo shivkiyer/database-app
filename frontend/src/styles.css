@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 h1 {
   text-align: center;
@@ -6,4 +10,46 @@ h1 {
 
 p {
   font-size: 125%;
+}
+
+.front-page-enclosure {
+  background-color: rgb(155, 155, 155);
+  height: auto;
+  position: relative;
+  overflow-y: visible;
+  padding-bottom: 30px;
+}
+
+.footer-box {
+  width: 100%;
+  background-color: black;
+  color: white;
+  font-size: 90%;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+.main-content-box {
+  margin-top: 30px;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.front-image {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.front-image img {
+  max-height: 60%;
+  max-width: 60%;
+}
+
+.centre-button {
+  display: block;
+  text-align: center;
+  width: 30%;
+  margin: auto;
 }

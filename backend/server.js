@@ -1,11 +1,13 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
+var sequelize = require('sequelize');
 
 var sqlConnection = require('./db/config').sqlConnection;
 
 var app = express();
 var htmlPATH = path.join(path.join(path.dirname(__dirname), 'frontend'), 'dist');
-app.use(express.static('/mnt/sda6/database-app/frontend/src/'));
+app.use(express.static(htmlPATH));
 
 var port = process.env.PORT||3000;
 
@@ -19,32 +21,18 @@ sqlConnection.authenticate().then(
   }
 );
 
-var {categoriesList,
-      customersList,
-      customerHistoryList,
-      inventoryList,
-      ordersList,
-      orderLinesList,
-      productsList,
-      reorderList} = require('./db/methods/dellstore2');
 
-
-// sqlConnection.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'").then(
-//   (results) => {
-//     console.log(results);
-//   }
-// ).catch(
-//   (e) => {
-//     console.log(e);
-//   }
-// );
-
-var dellstore2Models = require('./db/models/dellstore2');
-console.log(dellstore2Models);
+app.use(bodyParser.json());
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token, Authorization, sid');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 
 app.get('/', (req, res) => {
-  console.log("GET request on /");
   res.send('Hello there!');
 });
 

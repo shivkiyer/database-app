@@ -1,21 +1,40 @@
-<div class="row">
-  <h1>Database interface</h1>
-</div>
-
-<div class="row main-page">
-  <div class="col-md-2"></div>
-
-  <div class="col-md-8">
-    <p>This app provides an interface to sample postgres databases made available on the Postgres wiki page. Click <a href="https://wiki.postgresql.org/wiki/Sample_Databases">here</a> for the wiki page. The interface will help making queries on the database and extracting informaton. The interface uses Node JS on the back-end and Sequelize as the SQL ORM to define database models and execute queries. Click on continue below.</p>
-
-    <br>
-    <p class="text-center">
-      <a routerLink='/db'
-          class="btn btn-primary">
-          Continue
-      </a>
-    </p>
+<div class="front-page-enclosure">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Database interface</h1>
+    </div>
   </div>
 
-  <div class="col-md-2"></div>
+  <div class="row main-content-box">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="front-image">
+          <img src="./assets/img/front1.jpg" alt="Database">
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="front-image">
+          <img src="./assets/img/front2.png" alt="Database">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p>This app provides an interface to sample PostgreSQL databases made available their wiki page. Click <a href="https://wiki.postgresql.org/wiki/Sample_Databases">here</a> for the wiki page. The interface will help making queries on the database and extracting informaton. Choose a database and click on continue below.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="centre-button">
+          <a routerLink='/db'
+              class="btn btn-primary">
+              Continue
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<app-app-footer></app-app-footer>
