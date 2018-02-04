@@ -17,6 +17,12 @@ var sqlConnection = new sequelize({
   }
 });
 
+var dbList = [
+  'DVD Store',
+  'Food and nutrients'
+];
+
 module.exports = {
-  sqlConnection
+  sqlConnection,
+  dbList
 }

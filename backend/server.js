@@ -3,7 +3,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var sequelize = require('sequelize');
 
-var sqlConnection = require('./db/config').sqlConnection;
+var {sqlConnection, dbList} = require('./db/config');
+var dbMethods;
 
 var app = express();
 var htmlPATH = path.join(path.join(path.dirname(__dirname), 'frontend'), 'dist');
@@ -21,7 +22,6 @@ sqlConnection.authenticate().then(
   }
 );
 
-
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,7 +33,31 @@ app.use(function (req, res, next) {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello there!');
+  if (dbList.length > 0) {
+    res.send(dbList);
+  } else {
+    res.status(400).send({
+      message: 'Cannot connect to database'
+    });
+  }
+});
+
+app.get('/db/:id', (req, res) => {
+  let dbIndex = parseInt(req.params.id);
+  switch (dbIndex) {
+    case 0: dbMethods = require('./db/methods/dellstore2');
+            break;
+
+    case 1: // usda will come here
+            break;
+
+    default: console.log("No database found");
+              res.status(400).send({message: 'No database found'});
+  }
+  res.send({
+    dbName: dbList[dbIndex],
+    dbTables: Object.keys(dbMethods.dbTables)
+  });
 });
 
 app.listen(port, () => {

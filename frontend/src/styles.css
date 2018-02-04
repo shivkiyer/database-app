@@ -14,10 +14,11 @@ p {
 
 .front-page-enclosure {
   background-color: rgb(155, 155, 155);
+  min-height: 650px;
   height: auto;
   position: relative;
   overflow-y: visible;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 }
 
 .footer-box {
@@ -47,9 +48,18 @@ p {
   max-width: 60%;
 }
 
-.centre-button {
+.db-selector {
   display: block;
   text-align: center;
   width: 30%;
   margin: auto;
+}
+
+.db-selector button {
+  width: 40%;
+}
+
+.error-messages {
+  color: red;
+  text-align: center;
 }

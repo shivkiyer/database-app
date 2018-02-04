@@ -1,5 +1,7 @@
 var sequelize = require('sequelize');
 var {sqlConnection} = require('./../config');
+var dbTables = require('./../models/dellstore2');
+
 var {Categories,
       Customers,
       CustomerHistory,
@@ -8,6 +10,7 @@ var {Categories,
       OrderLines,
       Products,
       Reorder} = require('./../models/dellstore2');
+
 
 var categoriesList = () => {
   Categories.findAll().then(
@@ -145,6 +148,7 @@ var reorderList = () => {
 
 
 module.exports = {
+  dbTables,
   categoriesList,
   customersList,
   customerHistoryList,

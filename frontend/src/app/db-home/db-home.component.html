@@ -1,3 +1,37 @@
-<p>
-  db-home works!
-</p>
+<div class="front-page-enclosure">
+  <app-header></app-header>
+
+  <div class="main-content-box">
+    <div *ngIf="dbReady">
+        <div class="row">
+          <h3>Displaying database {{ dbName }}</h3>
+          <p>The following tables are present in {{ dbName }}. Choose one of them to view or search contents.</p>
+        </div>
+
+        <div class="row">
+            <form [formGroup]="chooseTableForm" (ngSubmit)="onSubmit()">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <select formControlName="table"
+                          class="form-control">
+                    <option *ngFor="let tableItem of dbTables;
+                                    let tableIndex=index"
+                            [ngValue]="tableIndex">
+                        {{ tableItem }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Choose
+                </button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

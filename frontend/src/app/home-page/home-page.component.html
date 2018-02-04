@@ -1,11 +1,7 @@
 <div class="front-page-enclosure">
-  <div class="row">
-    <div class="col-md-12">
-      <h1>Database interface</h1>
-    </div>
-  </div>
+  <app-header></app-header>
 
-  <div class="row main-content-box">
+  <div class="main-content-box">
     <div class="row">
       <div class="col-xs-6">
         <div class="front-image">
@@ -24,17 +20,36 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="centre-button">
-          <a routerLink='/db'
-              class="btn btn-primary">
-              Continue
-          </a>
+    <div class="db-selector"
+          *ngIf="!dbError">
+      <form [formGroup]="chooseDB" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="form-group">
+            <select formControlName="db">
+              <option *ngFor="let dbItem of dbList;
+                              let dbIndex=index"
+                      [ngValue]="dbIndex">
+                  {{ dbItem }}
+              </option>
+            </select>
+          </div>
         </div>
-      </div>
+        <div class="row">
+          <button type="submit"
+                  class="btn btn-primary">
+              Continue
+          </button>
+        </div>
+      </form>
     </div>
+
+    <div *ngIf="dbError"
+          class="error-messages">
+      <p>{{ dbErrorMessage }}</p>
+    </div>
+
+
   </div>
 </div>
 
-<app-app-footer></app-app-footer>
+<app-footer></app-footer>
