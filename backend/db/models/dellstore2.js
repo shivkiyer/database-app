@@ -121,66 +121,6 @@ var Customers = sqlConnection.define('Customers', {
 });
 
 
-var CustomerHistory = sqlConnection.define('Customer_History', {
-  customerid: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: false
-  },
-  orderid: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: false
-  },
-  prod_id: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: false
-  }
-},
-{
-  // This is to make sure sequelize uses a particular table name
-  // instead of generating an automatic table name from model name.
-  freezeTableName: true,
-  tableName: 'cust_hist',
-
-  // This to not insert createdAt or updatedAt timestamps and not
-  // expect them when reading tables.
-  timestamps: false
-});
-
-CustomerHistory.removeAttribute('id');
-CustomerHistory.belongsTo(Customers, {foreignKey: 'customerid'});
-
-
-var Inventory = sqlConnection.define('Inventory', {
-  prod_id: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  quan_in_stock: {
-    type: sequelize.INTEGER,
-    allowNull: false
-  },
-  sales: {
-    type: sequelize.INTEGER,
-    allowNull: false
-  }
-},
-{
-  // This is to make sure sequelize uses a particular table name
-  // instead of generating an automatic table name from model name.
-  freezeTableName: true,
-  tableName: 'inventory',
-
-  // This to not insert createdAt or updatedAt timestamps and not
-  // expect them when reading tables.
-  timestamps: false
-});
-
-
 var Orders = sqlConnection.define('Orders', {
   orderid: {
     type: sequelize.INTEGER,
@@ -221,46 +161,6 @@ var Orders = sqlConnection.define('Orders', {
 });
 
 Orders.belongsTo(Customers, {foreignKey: 'customerid'});
-
-
-var OrderLines = sqlConnection.define('Order_Lines', {
-  orderlineid: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: false
-  },
-  orderid: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: false
-  },
-  prod_id: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true
-  },
-  quantity: {
-    type: sequelize.INTEGER,
-    allowNull: false
-  },
-  orderdate:{
-    type: sequelize.DATE,
-    allowNull: false
-  },
-},
-{
-  // This is to make sure sequelize uses a particular table name
-  // instead of generating an automatic table name from model name.
-  freezeTableName: true,
-  tableName: 'orderlines',
-
-  // This to not insert createdAt or updatedAt timestamps and not
-  // expect them when reading tables.
-  timestamps: false
-});
-
-OrderLines.belongsTo(Orders, {foreignKey: 'orderid'});
 
 
 var Products = sqlConnection.define('Products', {
@@ -345,6 +245,106 @@ var Reorder = sqlConnection.define('Reorder', {
 });
 
 Reorder.removeAttribute('id');
+
+
+var Inventory = sqlConnection.define('Inventory', {
+  prod_id: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  quan_in_stock: {
+    type: sequelize.INTEGER,
+    allowNull: false
+  },
+  sales: {
+    type: sequelize.INTEGER,
+    allowNull: false
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'inventory',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+
+var CustomerHistory = sqlConnection.define('Customer_History', {
+  customerid: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: false
+  },
+  orderid: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: false
+  },
+  prod_id: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: false
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'cust_hist',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+CustomerHistory.removeAttribute('id');
+CustomerHistory.belongsTo(Customers, {foreignKey: 'customerid'});
+
+
+var OrderLines = sqlConnection.define('Order_Lines', {
+  orderlineid: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: false
+  },
+  orderid: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: false
+  },
+  prod_id: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  quantity: {
+    type: sequelize.INTEGER,
+    allowNull: false
+  },
+  orderdate: {
+    type: sequelize.DATE,
+    allowNull: false
+  },
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'orderlines',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+OrderLines.belongsTo(Orders, {foreignKey: 'orderid'});
 
 
 module.exports = {

@@ -27,4 +27,9 @@ export class DBMethodsService {
     return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex)
         .map(response => response.json());
   }
+
+  getTableContents(tableName: string): Observable<any> {
+    return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex + '/' + tableName)
+        .map(response => response.json());
+  }
 }

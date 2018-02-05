@@ -16,6 +16,7 @@ export class DbHomeComponent implements OnInit {
   dbTables = [];
   dbReady = false;
   chooseTableForm: FormGroup;
+  displayTable = false;
 
   constructor(private router: Router,
               private serverConfig: ServerConfigurationService,
@@ -46,6 +47,15 @@ export class DbHomeComponent implements OnInit {
 
   onSubmit() {
     console.log(this.dbTables[this.chooseTableForm.value.table]);
+    this.dbMethodsService.getTableContents(this.dbTables[this.chooseTableForm.value.table])
+          .subscribe(
+            (response) => {
+              console.log(response);
+            },
+            (errors) => {
+              console.log(errors);
+            }
+          );
   }
 
 }

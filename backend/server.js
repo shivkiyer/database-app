@@ -5,6 +5,7 @@ var sequelize = require('sequelize');
 
 var {sqlConnection, dbList} = require('./db/config');
 var dbMethods;
+var dbUtils = require('./db/methods/dbUtils');
 
 var app = express();
 var htmlPATH = path.join(path.join(path.dirname(__dirname), 'frontend'), 'dist');
@@ -44,20 +45,35 @@ app.get('/', (req, res) => {
 
 app.get('/db/:id', (req, res) => {
   let dbIndex = parseInt(req.params.id);
-  switch (dbIndex) {
-    case 0: dbMethods = require('./db/methods/dellstore2');
-            break;
-
-    case 1: // usda will come here
-            break;
-
-    default: console.log("No database found");
-              res.status(400).send({message: 'No database found'});
+  let dbName = dbUtils.getDBFile(dbIndex);
+  if (dbName.length === 0) {
+    res.status(400).send({message: 'No database found'});
   }
+  dbMethods = require('./db/methods/' + dbName);
   res.send({
     dbName: dbList[dbIndex],
     dbTables: Object.keys(dbMethods.dbTables)
   });
+});
+
+app.get('/db/:id/:name', (req, res) => {
+  let dbIndex = parseInt(req.params.id);
+  let tableName = req.params.name;
+  let dbName = dbUtils.getDBFile(dbIndex);
+  if (dbName.length === 0) {
+    res.status(400).send({message: 'No database found'});
+  } else {
+    dbMethods = require('./db/methods/' + dbName);
+    dbMethods.getTableContents(tableName).then(
+      (result) => {
+        res.send(result);
+      }
+    ).catch(
+      (e) => {
+        res.send(e);
+      }
+    );
+  }
 });
 
 app.listen(port, () => {
