@@ -31,6 +31,27 @@
             </form>
         </div>
 
+        <div *ngIf="displayTable">
+          <div class="row">
+            <p>The contents of the table "{{ tableChosen }}" are below. There are a total of {{ tableContents.length }} rows.</p>
+          </div>
+
+          <div class="large-table">
+            <table>
+              <thead>
+                <tr>
+                  <th *ngFor="let colNames of tableOrder">{{ colNames }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rowData of tableContents">
+                  <td *ngFor="let colData of rowData">{{ colData }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
     </div>
   </div>
 </div>

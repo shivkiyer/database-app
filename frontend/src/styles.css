@@ -63,3 +63,13 @@ p {
   color: red;
   text-align: center;
 }
+
+table td, table th {
+  text-align: center;
+  width: auto;
+  padding: 5px 10px;
+}
+
+.large-table {
+  overflow-x: scroll;
+}

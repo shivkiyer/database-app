@@ -14,6 +14,7 @@ var {Categories,
 
 var getColNamesCategories = () => {
   return {
+    order: ['Sr. No', 'Category Name'],
     attributes: [['category', 'Sr. No'], ['categoryname', 'Category Name']],
     include: []
   };
@@ -21,6 +22,19 @@ var getColNamesCategories = () => {
 
 var getColNamesCustomers = () => {
   return {
+    order: [
+      'Customer ID',
+      'First Name',
+      'Last Name',
+      'City',
+      'State',
+      'Postal code',
+      'Country',
+      'Region',
+      'Email',
+      'Phone',
+      'Gender'
+    ],
     attributes: [
       ['customerid', 'Customer ID'],
       ['firstname', 'First Name'],
@@ -41,6 +55,11 @@ var getColNamesCustomers = () => {
 
 var getColNamesInventory = () => {
   return {
+    order: [
+      'Product ID',
+      'Quantity in stock',
+      'Sales'
+    ],
     attributes: [
       ['prod_id', 'Product ID'],
       ['quan_in_stock', 'Quantity in stock'],
@@ -52,6 +71,13 @@ var getColNamesInventory = () => {
 
 var getColNamesOrders = () => {
   return {
+    order: [
+      'Order ID',
+      'Order Date',
+      'Net Amount',
+      'Tax',
+      'Total amount'
+    ],
     attributes: [
       ['orderid', 'Order ID'],
       ['orderdate', 'Order Date'],
@@ -81,6 +107,15 @@ var getColNamesOrders = () => {
 
 var getColNamesProducts = () => {
   return {
+    order: [
+      'Product ID',
+      'Category',
+      'Title',
+      'Actor',
+      'Price',
+      'Special',
+      'Common Product ID'
+    ],
     attributes: [
       ['prod_id', 'Product ID'],
       ['category', 'Category'],
@@ -96,6 +131,14 @@ var getColNamesProducts = () => {
 
 var getColNamesReorder = () => {
   return {
+    order: [
+      'Product ID',
+      'Date low',
+      'Quantity low',
+      'Date Reordered',
+      'Quantity reordered',
+      'Date expected'
+    ],
     attributes: [
       ['prod_id', 'Product ID'],
       ['date_low', 'Date low'],
@@ -110,6 +153,25 @@ var getColNamesReorder = () => {
 
 var getColNamesCustomerHistory = () => {
   return {
+    order: [
+      'Order ID',
+      'Product ID',
+      {
+        Customer: [
+          'Customer ID',
+          'First Name',
+          'Last Name',
+          'City',
+          'State',
+          'Postal code',
+          'Country',
+          'Region',
+          'Email',
+          'Phone',
+          'Gender'
+        ]
+      }
+    ],
     attributes: [
       ['orderid', 'Order ID'],
       ['prod_id', 'Product ID']
@@ -136,10 +198,25 @@ var getColNamesCustomerHistory = () => {
 
 var getColNamesOrderLines = () => {
   return {
+    order: [
+      'Order line ID',
+      'Product ID',
+      'Quantity',
+      'Order date',
+      {
+        Order: [
+          'Order ID',
+          'Order Date',
+          'Net Amount',
+          'Tax',
+          'Total amount'
+        ]
+      }
+    ],
     attributes: [
       ['orderlineid', 'Order line ID'],
       ['prod_id', 'Product ID'],
-      ['quantity', 'quantity'],
+      ['quantity', 'Quantity'],
       ['orderdate', 'Order date']
     ],
     include: [{
@@ -212,7 +289,10 @@ var getTableContents = (tableName) => {
         items.forEach((item) => {
           result.push(item.dataValues);
         });
-        return result;
+        return {
+          result: result,
+          order: tableModel['colNames']()['order']
+        };
       }
     ).catch(
       (e) => {
