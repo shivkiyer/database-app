@@ -269,6 +269,7 @@ var tableMapping = {
 
 var getTableContents = (tableName) => {
   var tableModel;
+  var noOfRows;
   if (Object.keys(dbTables).indexOf(tableName) > -1) {
     tableModel = tableMapping[tableName];
   } else {
@@ -279,26 +280,40 @@ var getTableContents = (tableName) => {
       reject({message: 'Table not found'});
     });
   } else {
-    return tableModel['model'].findAll({
-      attributes: tableModel['colNames']()['attributes'],
-      include: tableModel['colNames']()['include'],
-      limit: 1000
-    }).then(
-      (items) => {
-        let result = [];
-        items.forEach((item) => {
-          result.push(item.dataValues);
-        });
-        return {
-          result: result,
-          order: tableModel['colNames']()['order']
-        };
+    return tableModel['model'].count().then(
+      (count) => {
+        noOfRows = count;
       }
     ).catch(
       (e) => {
-        return {message: 'Database error'};
+        console.log("e");
       }
-    );
+    ).then(
+      () => {
+        return tableModel['model'].findAll({
+          attributes: tableModel['colNames']()['attributes'],
+          include: tableModel['colNames']()['include'],
+          offset: 0,
+          limit: 100
+        }).then(
+          (items) => {
+            let result = [];
+            items.forEach((item) => {
+              result.push(item.dataValues);
+            });
+            return {
+              result: result,
+              order: tableModel['colNames']()['order'],
+              count: noOfRows
+            };
+          }
+        ).catch(
+          (e) => {
+            console.log('Error');
+            return {message: 'Database error'};
+          }
+        );
+    });
   }
 };
 

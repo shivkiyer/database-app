@@ -20,6 +20,11 @@ export class DbHomeComponent implements OnInit {
   tableContents: any;
   tableOrder: any;
   tableChosen: any;
+  tableRowCount: number;
+  colStartIndex: number;
+  colSelection = [];
+  canShiftColLeft: boolean = false;
+  canShiftColRight:boolean = false;
 
   constructor(private router: Router,
               private serverConfig: ServerConfigurationService,
@@ -48,11 +53,11 @@ export class DbHomeComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.tableChosen = this.dbTables[this.chooseTableForm.value.table];
-    this.dbMethodsService.getTableContents(this.dbTables[this.chooseTableForm.value.table])
+  getTableContents(table, offset) {
+    this.dbMethodsService.getTableContents(table)
           .subscribe(
             (response) => {
+              this.tableRowCount = response['count'];
               this.tableOrder = [];
               this.tableContents = [];
               response['result'].forEach((row, rowIndex) => {
@@ -76,12 +81,55 @@ export class DbHomeComponent implements OnInit {
                 });
                 this.tableContents.push(rowContents);
               });
+              this.colSelection = [];
+              for (let iIndex=this.colStartIndex; iIndex<this.colStartIndex+5; iIndex++) {
+                if (iIndex < this.tableOrder.length) {
+                  this.colSelection.push(iIndex);
+                }
+              }
+              this.canShiftColLeft = false;
+              if (this.tableOrder.length > 5) {
+                this.canShiftColRight = true;
+              } else {
+                this.canShiftColRight = false;
+              }
               this.displayTable = true;
             },
             (errors) => {
               console.log(errors);
             }
           );
+  }
+
+  onSubmit() {
+    this.tableChosen = this.dbTables[this.chooseTableForm.value.table];
+    this.displayTable = false;
+    this.colStartIndex = 0;
+    this.getTableContents(this.dbTables[this.chooseTableForm.value.table], 0);
+  }
+
+  colShiftLeft() {
+    if (this.colStartIndex > 0) {
+      this.colStartIndex -= 1;
+      this.colSelection.splice(0, 0, this.colStartIndex);
+      this.colSelection.pop();
+      this.canShiftColRight = true;
+    }
+    if (this.colStartIndex === 0) {
+      this.canShiftColLeft = false;
+    }
+  }
+
+  colShiftRight() {
+    if (this.colStartIndex < this.tableOrder.length - 5) {
+      this.colStartIndex += 1;
+      this.colSelection.splice(0, 1);
+      this.colSelection.push(this.colStartIndex + 4);
+      this.canShiftColLeft = true;
+    }
+    if (this.colStartIndex === this.tableOrder.length - 5) {
+      this.canShiftColRight = false;
+    }
   }
 
 }

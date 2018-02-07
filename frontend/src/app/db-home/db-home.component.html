@@ -33,23 +33,40 @@
 
         <div *ngIf="displayTable">
           <div class="row">
-            <p>The contents of the table "{{ tableChosen }}" are below. There are a total of {{ tableContents.length }} rows.</p>
+            <p>The contents of the table "{{ tableChosen }}" are below. There are a total of {{ tableRowCount }} rows.</p>
           </div>
 
-          <div class="large-table">
+          <div class="row">
+              <div class="col-xs-2">
+                <span (click)="colShiftLeft()"
+                      [ngClass]="{'link-active': canShiftColLeft}">
+                      << Prev Column
+                </span>
+              </div>
+              <div class="col-xs-2 col-xs-offset-8">
+                <span (click)="colShiftRight()"
+                      [ngClass]="{'link-active': canShiftColRight}">
+                      Next Column >>
+                </span>
+              </div>
+            </div>
+
             <table>
               <thead>
                 <tr>
-                  <th *ngFor="let colNames of tableOrder">{{ colNames }}</th>
+                  <th *ngFor="let colIndices of colSelection">
+                    {{ tableOrder[colIndices] }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let rowData of tableContents">
-                  <td *ngFor="let colData of rowData">{{ colData }}</td>
+                    <td *ngFor="let colIndex of colSelection">
+                      {{ rowData[colIndex] }}
+                    </td>
                 </tr>
               </tbody>
             </table>
-          </div>
         </div>
 
     </div>
