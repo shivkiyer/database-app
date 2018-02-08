@@ -24,7 +24,14 @@ export class DbHomeComponent implements OnInit {
   colStartIndex: number;
   colSelection = [];
   canShiftColLeft: boolean = false;
-  canShiftColRight:boolean = false;
+  canShiftColRight: boolean = false;
+  colLimit: number = 5;
+  canGetNextRows: boolean = false;
+  canGetPrevRows: boolean = false;
+  rowStartIndex: number;
+  rowEndIndex: number;
+  rowSelection = [];
+  rowLimit: number = 505;
 
   constructor(private router: Router,
               private serverConfig: ServerConfigurationService,
@@ -53,8 +60,8 @@ export class DbHomeComponent implements OnInit {
     }
   }
 
-  getTableContents(table, offset) {
-    this.dbMethodsService.getTableContents(table)
+  getTableContents(table, offset, rowLimit) {
+    this.dbMethodsService.getTableContents(table, offset, rowLimit)
           .subscribe(
             (response) => {
               this.tableRowCount = response['count'];
@@ -82,16 +89,41 @@ export class DbHomeComponent implements OnInit {
                 this.tableContents.push(rowContents);
               });
               this.colSelection = [];
-              for (let iIndex=this.colStartIndex; iIndex<this.colStartIndex+5; iIndex++) {
+              for (let iIndex=this.colStartIndex; iIndex<this.colStartIndex+this.colLimit; iIndex++) {
                 if (iIndex < this.tableOrder.length) {
                   this.colSelection.push(iIndex);
                 }
               }
-              this.canShiftColLeft = false;
-              if (this.tableOrder.length > 5) {
+              if (this.colStartIndex > 0) {
+                this.canShiftColLeft = true;
+              } else {
+                this.canShiftColLeft = false;
+              }
+              if (this.tableOrder.length > this.colLimit) {
                 this.canShiftColRight = true;
               } else {
                 this.canShiftColRight = false;
+              }
+              this.rowSelection = [];
+              if (this.tableRowCount < this.rowStartIndex+this.rowLimit) {
+                this.rowEndIndex = this.tableRowCount;
+              } else {
+                this.rowEndIndex = this.rowStartIndex+this.rowLimit;
+              }
+              for (let iIndex=this.rowStartIndex;iIndex<this.rowEndIndex; iIndex++) {
+                if (iIndex < this.tableContents.length) {
+                  this.rowSelection.push(iIndex);
+                }
+              }
+              if (this.rowStartIndex + this.rowLimit < this.tableRowCount) {
+                this.canGetNextRows = true;
+              } else {
+                this.canGetNextRows = false;
+              }
+              if (this.rowStartIndex >= this.rowLimit) {
+                this.canGetPrevRows = true;
+              } else {
+                this.canGetPrevRows = false;
               }
               this.displayTable = true;
             },
@@ -105,7 +137,8 @@ export class DbHomeComponent implements OnInit {
     this.tableChosen = this.dbTables[this.chooseTableForm.value.table];
     this.displayTable = false;
     this.colStartIndex = 0;
-    this.getTableContents(this.dbTables[this.chooseTableForm.value.table], 0);
+    this.rowStartIndex = 0;
+    this.getTableContents(this.dbTables[this.chooseTableForm.value.table], 0, this.rowLimit);
   }
 
   colShiftLeft() {
@@ -121,14 +154,54 @@ export class DbHomeComponent implements OnInit {
   }
 
   colShiftRight() {
-    if (this.colStartIndex < this.tableOrder.length - 5) {
+    if (this.colStartIndex < this.tableOrder.length - this.colLimit) {
       this.colStartIndex += 1;
       this.colSelection.splice(0, 1);
-      this.colSelection.push(this.colStartIndex + 4);
+      this.colSelection.push(this.colStartIndex + this.colLimit - 1);
       this.canShiftColLeft = true;
     }
-    if (this.colStartIndex === this.tableOrder.length - 5) {
+    if (this.colStartIndex === this.tableOrder.length - this.colLimit) {
       this.canShiftColRight = false;
+    }
+  }
+
+  rowGetPrev() {
+    if (this.rowStartIndex >= this.rowLimit) {
+      this.rowStartIndex -= this.rowLimit;
+      if (this.tableRowCount < this.rowStartIndex+this.rowLimit) {
+        this.rowEndIndex = this.tableRowCount;
+      } else {
+        this.rowEndIndex = this.rowStartIndex+this.rowLimit;
+      }
+      this.rowSelection = [];
+      for (let iIndex=this.rowStartIndex; iIndex<this.rowEndIndex; iIndex++) {
+        this.rowSelection.push(iIndex);
+      }
+      this.canGetNextRows = true;
+      this.getTableContents(this.dbTables[this.chooseTableForm.value.table], this.rowStartIndex, this.rowLimit);
+    }
+    if (this.rowStartIndex === 0) {
+      this.canGetPrevRows = false;
+    }
+  }
+
+  rowGetNext() {
+    if (this.rowStartIndex < this.tableRowCount - this.rowLimit) {
+      this.rowStartIndex += this.rowLimit;
+      if (this.tableRowCount < this.rowStartIndex+this.rowLimit) {
+        this.rowEndIndex = this.tableRowCount;
+      } else {
+        this.rowEndIndex = this.rowStartIndex+this.rowLimit;
+      }
+      this.rowSelection = [];
+      for (let iIndex=this.rowStartIndex; iIndex<this.rowEndIndex; iIndex++) {
+        this.rowSelection.push(iIndex);
+      }
+      this.canGetPrevRows = true;
+      this.getTableContents(this.dbTables[this.chooseTableForm.value.table], this.rowStartIndex, this.rowLimit);
+    }
+    if (this.rowStartIndex < this.tableRowCount - this.rowLimit) {
+      this.canGetNextRows = false;
     }
   }
 

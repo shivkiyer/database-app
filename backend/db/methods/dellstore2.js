@@ -267,7 +267,7 @@ var tableMapping = {
   }
 }
 
-var getTableContents = (tableName) => {
+var getTableContents = (tableName, offset, limit) => {
   var tableModel;
   var noOfRows;
   if (Object.keys(dbTables).indexOf(tableName) > -1) {
@@ -293,8 +293,8 @@ var getTableContents = (tableName) => {
         return tableModel['model'].findAll({
           attributes: tableModel['colNames']()['attributes'],
           include: tableModel['colNames']()['include'],
-          offset: 0,
-          limit: 100
+          offset: offset,
+          limit: limit
         }).then(
           (items) => {
             let result = [];

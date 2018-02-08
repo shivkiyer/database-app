@@ -72,9 +72,14 @@ table td, table th {
 
 .link-active {
   cursor: pointer;
+  padding: 5px;
 }
 
 .link-active:hover {
   background-color: lightblue;
   border-radius: 5px;
+}
+
+.green-background {
+  background-color: lightgreen;
 }

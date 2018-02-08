@@ -28,8 +28,8 @@ export class DBMethodsService {
         .map(response => response.json());
   }
 
-  getTableContents(tableName: string): Observable<any> {
-    return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex + '/' + tableName)
+  getTableContents(tableName: string, offset: number, limit: number): Observable<any> {
+    return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex + '/' + tableName + '/'+ offset + '/' + limit)
         .map(response => response.json());
   }
 }

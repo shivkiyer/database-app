@@ -31,9 +31,27 @@
             </form>
         </div>
 
-        <div *ngIf="displayTable">
+        <div *ngIf="displayTable && tableRowCount>0">
           <div class="row">
-            <p>The contents of the table "{{ tableChosen }}" are below. There are a total of {{ tableRowCount }} rows.</p>
+            <p>The contents of the table "{{ tableChosen }}" are below. There are a total of {{ tableRowCount }} rows. Below are displayed rows {{ rowStartIndex+1 }} to {{ rowEndIndex }}.</p>
+          </div>
+          <div class="row">
+            <div class="col-xs-5">
+              <div class="text-right">
+                <span [ngClass]="{'link-active': canGetPrevRows}"
+                      (click)="rowGetPrev()">
+                  << Get previous rows
+                </span>
+              </div>
+            </div>
+            <div class="col-xs-5 col-xs-offset-2">
+              <div class="text-left">
+                <span [ngClass]="{'link-active': canGetNextRows}"
+                      (click)="rowGetNext()">
+                  Get next rows >>
+                </span>
+              </div>
+            </div>
           </div>
 
           <div class="row">
@@ -67,6 +85,12 @@
                 </tr>
               </tbody>
             </table>
+        </div>
+
+        <div *ngIf="displayTable && tableRowCount===0">
+          <div class="row">
+            <p>The table "{{ tableChosen }}" is empty.</p>
+          </div>
         </div>
 
     </div>

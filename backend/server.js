@@ -56,15 +56,17 @@ app.get('/db/:id', (req, res) => {
   });
 });
 
-app.get('/db/:id/:name', (req, res) => {
+app.get('/db/:id/:name/:offset/:limit', (req, res) => {
   let dbIndex = parseInt(req.params.id);
+  let dbOffset = parseInt(req.params.offset);
+  let rowLimit = parseInt(req.params.limit);
   let tableName = req.params.name;
   let dbName = dbUtils.getDBFile(dbIndex);
   if (dbName.length === 0) {
     res.status(400).send({message: 'No database found'});
   } else {
     dbMethods = require('./db/methods/' + dbName);
-    dbMethods.getTableContents(tableName).then(
+    dbMethods.getTableContents(tableName, dbOffset, rowLimit).then(
       (result) => {
         res.send(result);
       }

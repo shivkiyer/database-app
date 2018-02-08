@@ -4,7 +4,7 @@ var getDBFile = (dbIndex) => {
     case 0: fileName = 'dellstore2';
             break;
 
-    case 1: // usda will come here
+    case 1: fileName = 'usda';
             break;
 
     default: fileName = '';
