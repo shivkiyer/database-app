@@ -1,5 +1,7 @@
 var sequelize = require('sequelize');
-var {sqlConnection} = require('./../config');
+var {allSQLConnection} = require('./../config');
+
+var sqlConnection = allSQLConnection[0];
 
 var Categories = sqlConnection.define('Categories', {
   category: {

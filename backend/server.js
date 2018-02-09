@@ -3,7 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var sequelize = require('sequelize');
 
-var {sqlConnection, dbList} = require('./db/config');
+var {allSQLConnection, dbList} = require('./db/config');
 var dbMethods;
 var dbUtils = require('./db/methods/dbUtils');
 
@@ -13,6 +13,7 @@ app.use(express.static(htmlPATH));
 
 var port = process.env.PORT||3000;
 
+var sqlConnection = allSQLConnection[0];
 sqlConnection.authenticate().then(
   () => {
     console.log("Connection to SQL database established");
@@ -31,6 +32,84 @@ app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
+
+let tryDb = require('./db/models/usda');
+tryDb.FoodDescription.findAll({
+  attributes: [
+    ['ndb_no', 'Sr. No'],
+    ['long_desc', 'Long description'],
+    ['shrt_desc', 'Short description'],
+    ['comname', 'Common name'],
+    ['manufacname', 'Manufaturers name'],
+    ['survey', 'Survey'],
+    ['ref_desc', 'Reference description'],
+    ['refuse', 'Refuse'],
+    ['sciname', 'Scientific name'],
+    ['n_factor', 'N factor'],
+    ['pro_factor', 'Protein factor'],
+    ['fat_factor', 'Fat factor'],
+    ['cho_factor', 'Cholestrol factor'],
+    ['fdgrp_cd', 'FD Group CD']
+  ],
+  include: [
+    {
+    model: tryDb.FDGroup,
+    attributes: [
+      ['fdgrp_cd', 'FD Group CD'],
+      ['fddrp_desc', 'Description']
+    ]
+  }
+  ],
+  limit: 20
+}).then(
+  (items) => {
+    items.forEach((item) => {
+      console.log(JSON.stringify(item));
+    });
+  }
+).catch(
+  (e) => {
+    console.log(e);
+  }
+);
+
+
+// let tryDb = require('./db/models/dellstore2');
+// tryDb.CustomerHistory.findAll({
+//   attributes: [
+//     ['orderid', 'Order ID'],
+//     ['prod_id', 'Product ID']
+//   ],
+//   include: [{
+//     model: tryDb.Customers,
+//     attributes: [
+//       ['customerid', 'Customer ID'],
+//       ['firstname', 'First Name'],
+//       ['lastname', 'Last Name'],
+//       ['city', 'City'],
+//       ['state', 'State'],
+//       ['zip', 'Postal code'],
+//       ['country', 'Country'],
+//       ['region', 'Region'],
+//       ['email', 'Email'],
+//       ['phone', 'Phone'],
+//       ['age', 'Age'],
+//       ['gender', 'Gender']
+//     ]
+//   }],
+//   limit: 20
+// }).then(
+//   (items) => {
+//     items.forEach((item) => {
+//       console.log(item.dataValues);
+//     });
+//   }
+// ).catch(
+//   (e) => {
+//     console.log(e);
+//   }
+// );
 
 
 app.get('/', (req, res) => {
@@ -65,8 +144,9 @@ app.get('/db/:id/:name/:offset/:limit', (req, res) => {
   if (dbName.length === 0) {
     res.status(400).send({message: 'No database found'});
   } else {
-    dbMethods = require('./db/methods/' + dbName);
-    dbMethods.getTableContents(tableName, dbOffset, rowLimit).then(
+    // dbMethods = require('./db/methods/' + dbName);
+    dbMethods = require('./controllers/queries');
+    dbMethods.getTableContents(dbIndex, tableName, dbOffset, rowLimit).then(
       (result) => {
         res.send(result);
       }

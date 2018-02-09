@@ -25,7 +25,8 @@
       <form [formGroup]="chooseDB" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="form-group">
-            <select formControlName="db">
+            <select formControlName="db"
+                    class="form-control">
               <option *ngFor="let dbItem of dbList;
                               let dbIndex=index"
                       [ngValue]="dbIndex">

@@ -31,7 +31,7 @@ export class DbHomeComponent implements OnInit {
   rowStartIndex: number;
   rowEndIndex: number;
   rowSelection = [];
-  rowLimit: number = 505;
+  rowLimit: number = 100;
 
   constructor(private router: Router,
               private serverConfig: ServerConfigurationService,
@@ -64,6 +64,8 @@ export class DbHomeComponent implements OnInit {
     this.dbMethodsService.getTableContents(table, offset, rowLimit)
           .subscribe(
             (response) => {
+              console.log(response['order']);
+              console.log(response['result']);
               this.tableRowCount = response['count'];
               this.tableOrder = [];
               this.tableContents = [];
