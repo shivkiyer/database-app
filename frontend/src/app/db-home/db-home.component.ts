@@ -64,8 +64,6 @@ export class DbHomeComponent implements OnInit {
     this.dbMethodsService.getTableContents(table, offset, rowLimit)
           .subscribe(
             (response) => {
-              console.log(response['order']);
-              console.log(response['result']);
               this.tableRowCount = response['count'];
               this.tableOrder = [];
               this.tableContents = [];

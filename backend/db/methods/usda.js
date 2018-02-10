@@ -85,12 +85,12 @@ var getColNamesFoodDescription = () => {
       {
         'FDGroup': [
           'FD Group CD',
-          'Description'
+          'FD Group Description'
         ]
       }
     ],
     attributes: [
-      ['ndb_no', 'Sr. No'],
+      ['ndb_no', 'Sr No'],
       ['long_desc', 'Long description'],
       ['shrt_desc', 'Short description'],
       ['comname', 'Common name'],
@@ -104,12 +104,11 @@ var getColNamesFoodDescription = () => {
       ['fat_factor', 'Fat factor'],
       ['cho_factor', 'Cholestrol factor']
     ],
-    // include: []
     include: [{
       model: FDGroup,
       attributes: [
         ['fdgrp_cd', 'FD Group CD'],
-        ['fddrp_desc', 'Description']
+        ['fddrp_desc', 'FD Group Description']
       ]
     }]
   };

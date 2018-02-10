@@ -65,9 +65,18 @@ p {
 }
 
 table td, table th {
-  text-align: center;
   width: auto;
+  max-width: 20%;
   padding: 5px 10px;
+  margin: 5px 10px;
+}
+
+table td {
+  text-align: left;
+}
+
+table th {
+  text-align: centre;
 }
 
 .link-active {
