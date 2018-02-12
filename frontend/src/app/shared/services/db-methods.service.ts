@@ -24,12 +24,12 @@ export class DBMethodsService {
   }
 
   getDBTableList(): Observable<any> {
-    return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex)
+    return this.http.get(this.serverConfig.baseApi.value + '/api/' + this.dbIndex)
         .map(response => response.json());
   }
 
   getTableContents(tableName: string, offset: number, limit: number): Observable<any> {
-    return this.http.get(this.serverConfig.baseApi.value + '/db/' + this.dbIndex + '/' + tableName + '/'+ offset + '/' + limit)
+    return this.http.get(this.serverConfig.baseApi.value + '/api/' + this.dbIndex + '/' + tableName + '/'+ offset + '/' + limit)
         .map(response => response.json());
   }
 }

@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/db/:id', (req, res) => {
+app.get('/api/:id', (req, res) => {
   let dbIndex = parseInt(req.params.id);
   let dbName = dbUtils.getDBFile(dbIndex);
   if (dbName.length === 0) {
@@ -57,7 +57,74 @@ app.get('/db/:id', (req, res) => {
   });
 });
 
-app.get('/db/:id/:name/:offset/:limit', (req, res) => {
+
+// trydb = require('./db/models/usda');
+// trydb.NutData.findAll({
+//   attributes: [
+//     ['ndb_no', 'Sr No'],
+//     ['nutr_no', 'Nutrition no'],
+//     ['nutr_val', 'Nutrition value'],
+//     ['num_data_pts', 'Numeric data points'],
+//     ['std_error', 'Standard error'],
+//     ['src_cd', 'Source CD'],
+//     ['deriv_cd', 'Derive CD'],
+//     ['ref_ndb_no', 'Ref No'],
+//     ['add_nutr_mark', 'Add nutrition mark'],
+//     ['num_studies', 'Numerical studies'],
+//     ['min', 'Min'],
+//     ['max', 'Max'],
+//     ['df', 'DF'],
+//     ['low_eb', 'Low eb'],
+//     ['up_eb', 'Up eb'],
+//     ['stat_cmt', 'Static CMT'],
+//     ['cc', 'CC']
+//   ],
+//   includes: [
+//     {
+//       model: trydb.DeriveCD,
+//       attributes: [
+//         ['deriv_cd', 'Derive CD'],
+//         ['derivcd_desc', 'Description']
+//       ]
+//     },
+//     {
+//       model: trydb.FoodDescription,
+//       attributes: [
+//         ['long_desc', 'Long description'],
+//         ['shrt_desc', 'Short description'],
+//         ['comname', 'Common name'],
+//         ['manufacname', 'Manufaturers name']
+//       ]
+//     },
+//     {
+//       model: trydb.NutritionDefinition,
+//       attributes: [
+//         ['units', 'Units'],
+//         ['tagname', 'Tag name'],
+//         ['nutrdesc', 'Description']
+//       ]
+//     },
+//     {
+//       model: trydb.SourceCD,
+//       attributes: [
+//         ['src_cd', 'Source CD'],
+//         ['srccd_desc', 'Description']
+//       ]
+//     }
+//   ]
+// }).then(
+//   (items) => {
+//     items.forEach((item) => {
+//       console.log(JSON.stringify(item));
+//     });
+//   }
+// ).catch(
+//   (e) => {
+//     console.log(e);
+//   }
+// );
+
+app.get('/api/:id/:name/:offset/:limit', (req, res) => {
   let dbIndex = parseInt(req.params.id);
   let dbOffset = parseInt(req.params.offset);
   let rowLimit = parseInt(req.params.limit);

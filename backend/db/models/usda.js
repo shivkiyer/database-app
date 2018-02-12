@@ -156,7 +156,7 @@ var FoodDescription = sqlConnection.define('FoodDescription', {
 FoodDescription.belongsTo(FDGroup, {foreignKey: 'fdgrp_cd'});
 
 
-var NutritionDefinition = sqlConnection.define('Nutrition_Defition', {
+var NutritionDefinition = sqlConnection.define('NutritionDefinition', {
   nutr_no: {
     type: sequelize.STRING(3),
     allowNull: false,
@@ -191,7 +191,7 @@ var NutritionDefinition = sqlConnection.define('Nutrition_Defition', {
 });
 
 
-var SourceCD = sqlConnection.define('Source_CD', {
+var SourceCD = sqlConnection.define('SourceCD', {
   src_cd: {
     type: sequelize.INTEGER,
     allowNull: false,
@@ -251,10 +251,89 @@ var Footnote = sqlConnection.define('Footnote', {
   timestamps: false
 });
 
-FootNote.removeAttribute('id');
-FootNote.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
-Footnote.belongsTo(NutritionDefinition, {foreignKey: 'nutr_no'});
+Footnote.removeAttribute('id');
+Footnote.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
+Footnote.belongsTo(NutritionDefinition, {
+  foreignKey: 'nutr_no'
+});
 
+
+var NutData = sqlConnection.define('NutData', {
+  ndb_no: {
+    type: sequelize.STRING(5),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  nutr_no: {
+    type: sequelize.STRING(3),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  nutr_val: {
+    type: sequelize.DOUBLE,
+    allowNull: false
+  },
+  num_data_pts: {
+    type: sequelize.DOUBLE,
+    allowNull: false
+  },
+  std_error: {
+    type: sequelize.DOUBLE
+  },
+  src_cd: {
+    type: sequelize.INTEGER,
+    allowNull: false
+  },
+  deriv_cd: {
+    type: sequelize.TEXT,
+  },
+  ref_ndb_no: {
+    type: sequelize.STRING(5)
+  },
+  add_nutr_mark: {
+    type: sequelize.STRING(1)
+  },
+  num_studies: {
+    type: sequelize.INTEGER
+  },
+  min: {
+    type: sequelize.DOUBLE
+  },
+  max: {
+    type: sequelize.DOUBLE
+  },
+  df: {
+    type: sequelize.INTEGER
+  },
+  low_eb: {
+    type: sequelize.DOUBLE
+  },
+  up_eb: {
+    type: sequelize.DOUBLE
+  },
+  stat_cmt: {
+    type: sequelize.TEXT
+  },
+  cc: {
+    type: sequelize.STRING(1)
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'nut_data',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+NutData.removeAttribute('id');
+NutData.belongsTo(DeriveCD, {foreignKey: 'deriv_cd'});
+NutData.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
+NutData.belongsTo(NutritionDefinition, {foreignKey: 'nutr_no'});
+NutData.belongsTo(SourceCD, {foreignKey: 'src_cd'});
 
 module.exports = {
   DataSrc,
@@ -263,5 +342,6 @@ module.exports = {
   FoodDescription,
   NutritionDefinition,
   SourceCD,
-  Footnote
+  Footnote,
+  NutData
 };
