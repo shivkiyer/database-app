@@ -156,9 +156,112 @@ var FoodDescription = sqlConnection.define('FoodDescription', {
 FoodDescription.belongsTo(FDGroup, {foreignKey: 'fdgrp_cd'});
 
 
+var NutritionDefinition = sqlConnection.define('Nutrition_Defition', {
+  nutr_no: {
+    type: sequelize.STRING(3),
+    allowNull: false,
+    primaryKey: true
+  },
+  units: {
+    type: sequelize.TEXT,
+    allowNull: false
+  },
+  tagname: {
+    type: sequelize.TEXT
+  },
+  nutrdesc: {
+    type: sequelize.TEXT
+  },
+  num_dec: {
+    type: sequelize.INTEGER
+  },
+  sr_order: {
+    type: sequelize.INTEGER
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'nutr_def',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+
+var SourceCD = sqlConnection.define('Source_CD', {
+  src_cd: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  srccd_desc: {
+    type: sequelize.TEXT,
+    allowNull: false
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'src_cd',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+
+var Footnote = sqlConnection.define('Footnote', {
+  ndb_no: {
+    type: sequelize.STRING(5),
+    allowNull: false,
+    primaryKey: false
+  },
+  footnt_no: {
+    type: sequelize.STRING(4),
+    allowNull: false,
+    primaryKey: false
+  },
+  footnt_typ: {
+    type: sequelize.STRING(1),
+    allowNull: false,
+    primaryKey: false
+  },
+  nutr_no: {
+    type: sequelize.STRING(3),
+    primaryKey: false
+  },
+  footnt_txt: {
+    type: sequelize.TEXT,
+    allowNull: false,
+    primaryKey: false
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'footnote',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+FootNote.removeAttribute('id');
+FootNote.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
+Footnote.belongsTo(NutritionDefinition, {foreignKey: 'nutr_no'});
+
+
 module.exports = {
   DataSrc,
   DeriveCD,
   FDGroup,
-  FoodDescription
+  FoodDescription,
+  NutritionDefinition,
+  SourceCD,
+  Footnote
 };

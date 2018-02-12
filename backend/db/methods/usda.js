@@ -4,7 +4,10 @@ var dbTables = require('./../models/usda');
 var {DataSrc,
       DeriveCD,
       FDGroup,
-      FoodDescription} = require('./../models/usda');
+      FoodDescription,
+      NutritionDefinition,
+      SourceCD,
+      FootNote} = require('./../models/usda');
 
 
 var getColNamesDataSrc = () => {
@@ -115,6 +118,90 @@ var getColNamesFoodDescription = () => {
 };
 
 
+var getColNamesNutritionDefinition = () => {
+  return {
+    order: [
+      'Sr No',
+      'Units',
+      'Tag name',
+      'Description',
+      'Number',
+      'Serial Order'
+    ],
+    attributes: [
+      ['nutr_no', 'Sr No'],
+      ['units', 'Units'],
+      ['tagname', 'Tag name'],
+      ['nutrdesc', 'Description'],
+      ['num_dec', 'Number'],
+      ['sr_order', 'Serial Order']
+    ],
+    include: []
+  };
+};
+
+
+var getColNamesSourceCD = () => {
+  return {
+    order: [
+      'Source CD',
+      'Description'
+    ],
+    attributes: [
+      ['src_cd', 'Source CD'],
+      ['srccd_desc', 'Description']
+    ],
+    include: []
+  };
+};
+
+
+var getColNamesFootnote = () => {
+  return {
+    order: [
+      'Sr. No',
+      'Long description',
+      'Short description',
+      'Common name',
+      "Manufaturer's name",
+      'Survey',
+      'Reference description',
+      'Refuse',
+      'Scientific name',
+      'N factor',
+      'Protein factor',
+      'Fat factor',
+      'Cholestrol factor',
+      {
+        'FDGroup': [
+          'FD Group CD',
+          'FD Group Description'
+        ]
+      }
+    ],
+    attributes: [
+      ['ndb_no', 'Sr No'],
+      ['footnt_no', 'Footnote No'],
+      ['footnt_typ', 'Footnote type'],
+      ['nutr_no', 'Nutrition no'],
+      ['footnt_txt', 'Footnote text'],
+    ],
+    include: [{
+      model: FDGroup,
+      attributes: [
+        ['fdgrp_cd', 'FD Group CD'],
+        ['fddrp_desc', 'FD Group Description']
+      ]
+    }]
+  };
+};
+
+ndb_no character(5) NOT NULL,
+  footnt_no character(4) NOT NULL,
+  footnt_typ character(1) NOT NULL,
+  nutr_no character(3),
+  footnt_txt text NOT NULL,
+
 var tableMapping = {
   'DataSrc': {
     model: DataSrc,
@@ -131,6 +218,18 @@ var tableMapping = {
   'FoodDescription': {
     model: FoodDescription,
     colNames: getColNamesFoodDescription
+  },
+  'NutritionDefinition': {
+    model: NutritionDefinition,
+    colNames: getColNamesNutritionDefinition
+  },
+  'SourceCD': {
+    model: SourceCD,
+    colNames: getColNamesSourceCD
+  },
+  'Footnote': {
+    model: Footnote,
+    colNames: getColNamesFootnote
   }
 }
 
