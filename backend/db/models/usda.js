@@ -335,6 +335,86 @@ NutData.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
 NutData.belongsTo(NutritionDefinition, {foreignKey: 'nutr_no'});
 NutData.belongsTo(SourceCD, {foreignKey: 'src_cd'});
 
+
+var Weight = sqlConnection.define('Weight', {
+  ndb_no: {
+    type: sequelize.STRING(5),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  seq: {
+    type: sequelize.STRING(2),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  amount: {
+    type: sequelize.DOUBLE,
+    allowNull: false
+  },
+  msre_desc: {
+    type: sequelize.TEXT,
+    allowNull: false
+  },
+  gm_wgt: {
+    type: sequelize.DOUBLE,
+    allowNull: false
+  },
+  num_data_pts: {
+    type: sequelize.INTEGER
+  },
+  std_dev: {
+    type: sequelize.DOUBLE
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'weight',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+Weight.removeAttribute('id');
+Weight.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
+
+
+var DataSourceLine = sqlConnection.define('DataSourceLine', {
+  ndb_no: {
+    type: sequelize.STRING(5),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  nutr_no: {
+    type: sequelize.STRING(3),
+    allowNull: false,
+    unique: 'compositeIndex'
+  },
+  datasrc_id: {
+    type: sequelize.STRING(6),
+    allowNull: false,
+    unique: 'compositeIndex'
+  }
+},
+{
+  // This is to make sure sequelize uses a particular table name
+  // instead of generating an automatic table name from model name.
+  freezeTableName: true,
+  tableName: 'datsrcln',
+
+  // This to not insert createdAt or updatedAt timestamps and not
+  // expect them when reading tables.
+  timestamps: false
+});
+
+DataSourceLine.removeAttribute('id');
+DataSourceLine.belongsTo(DataSrc, {foreignKey: 'datasrc_id'});
+DataSourceLine.belongsTo(FoodDescription, {foreignKey: 'ndb_no'});
+DataSourceLine.belongsTo(NutritionDefinition, {foreignKey: 'nutr_no'});
+
+
 module.exports = {
   DataSrc,
   DeriveCD,
@@ -343,5 +423,7 @@ module.exports = {
   NutritionDefinition,
   SourceCD,
   Footnote,
-  NutData
+  NutData,
+  Weight,
+  DataSourceLine
 };

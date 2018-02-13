@@ -8,7 +8,9 @@ var {DataSrc,
       NutritionDefinition,
       SourceCD,
       Footnote,
-      NutData} = require('./../models/usda');
+      NutData,
+      Weight,
+      DataSourceLine} = require('./../models/usda');
 
 
 var getColNamesDataSrc = () => {
@@ -309,6 +311,118 @@ var getColNamesNutData = () => {
 };
 
 
+var getColNamesWeight = () => {
+  return {
+    order: [
+      'Sr No',
+      'Sequence',
+      'Amount',
+      'MSRE Description',
+      'Grams weight',
+      'Numeric data points',
+      'Standard deviation',
+      {
+        'FoodDescription': [
+          'Long description',
+          'Short description',
+          'Common name',
+          'Manufaturers name'
+        ]
+      }
+    ],
+    attributes: [
+      ['ndb_no', 'Sr No'],
+      ['seq', 'Sequence'],
+      ['amount', 'Amount'],
+      ['msre_desc', 'MSRE Description'],
+      ['gm_wgt', 'Grams weight'],
+      ['num_data_pts', 'Numeric data points'],
+      ['std_dev', 'Standard deviation']
+    ],
+    include: [
+      {
+        model: FoodDescription,
+        attributes: [
+          ['long_desc', 'Long description'],
+          ['shrt_desc', 'Short description'],
+          ['comname', 'Common name'],
+          ['manufacname', 'Manufaturers name']
+        ]
+      }
+    ]
+  }
+};
+
+
+var getColNamesDataSourceLine = () => {
+    return {
+      order: [
+        {
+          'DataSrc': [
+            'ID',
+            'Authors',
+            'Title',
+            'Year',
+            'Journal',
+            'Volume city',
+            'Issue state',
+            'Start page',
+            'End page'
+          ]
+        },
+        {
+          'FoodDescription': [
+            'Long description',
+            'Short description',
+            'Common name',
+            'Manufaturers name'
+          ]
+        },
+        {
+          'NutritionDefinition': [
+            'Units',
+            'Tag name',
+            'Description'
+          ]
+        }
+      ],
+      include: [
+        {
+          model: DataSrc,
+          attributes: [
+            ['datasrc_id', 'ID'],
+            ['authors', 'Authors'],
+            ['title', 'Title'],
+            ['year', 'Year'],
+            ['journal', 'Journal'],
+            ['vol_city', 'Volume city'],
+            ['issue_state', 'Issue state'],
+            ['start_page', 'Start page'],
+            ['end_page', 'End page']
+          ]
+        },
+        {
+          model: FoodDescription,
+          attributes: [
+            ['long_desc', 'Long description'],
+            ['shrt_desc', 'Short description'],
+            ['comname', 'Common name'],
+            ['manufacname', 'Manufaturers name']
+          ]
+        },
+        {
+          model: NutritionDefinition,
+          attributes: [
+            ['units', 'Units'],
+            ['tagname', 'Tag name'],
+            ['nutrdesc', 'Description']
+          ]
+        }
+      ]
+    }
+};
+
+
 var tableMapping = {
   'DataSrc': {
     model: DataSrc,
@@ -341,6 +455,14 @@ var tableMapping = {
   'NutData': {
     model: NutData,
     colNames: getColNamesNutData
+  },
+  'Weight': {
+    model: Weight,
+    colNames: getColNamesWeight
+  },
+  'DataSourceLine': {
+    model: DataSourceLine,
+    colNames: getColNamesDataSourceLine
   }
 }
 

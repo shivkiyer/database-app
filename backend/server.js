@@ -59,57 +59,38 @@ app.get('/api/:id', (req, res) => {
 
 
 // trydb = require('./db/models/usda');
-// trydb.NutData.findAll({
-//   attributes: [
-//     ['ndb_no', 'Sr No'],
-//     ['nutr_no', 'Nutrition no'],
-//     ['nutr_val', 'Nutrition value'],
-//     ['num_data_pts', 'Numeric data points'],
-//     ['std_error', 'Standard error'],
-//     ['src_cd', 'Source CD'],
-//     ['deriv_cd', 'Derive CD'],
-//     ['ref_ndb_no', 'Ref No'],
-//     ['add_nutr_mark', 'Add nutrition mark'],
-//     ['num_studies', 'Numerical studies'],
-//     ['min', 'Min'],
-//     ['max', 'Max'],
-//     ['df', 'DF'],
-//     ['low_eb', 'Low eb'],
-//     ['up_eb', 'Up eb'],
-//     ['stat_cmt', 'Static CMT'],
-//     ['cc', 'CC']
-//   ],
-//   includes: [
+// trydb.DataSourceLine.findAll({
+//   include: [
 //     {
-//       model: trydb.DeriveCD,
+//       model:trydb.DataSrc,
 //       attributes: [
-//         ['deriv_cd', 'Derive CD'],
-//         ['derivcd_desc', 'Description']
+//         ['datasrc_id', 'ID'],
+//         ['authors', 'Authors'],
+//         ['title', 'Title'],
+//         ['year', 'Year'],
+//         ['journal', 'Journal'],
+//         ['vol_city', 'Volume city'],
+//         ['issue_state', 'Issue state'],
+//         ['start_page', 'Start page'],
+//         ['end_page', 'End page']
 //       ]
 //     },
 //     {
-//       model: trydb.FoodDescription,
-//       attributes: [
-//         ['long_desc', 'Long description'],
-//         ['shrt_desc', 'Short description'],
-//         ['comname', 'Common name'],
-//         ['manufacname', 'Manufaturers name']
-//       ]
+//       model: trydb.FoodDescription
+//       // attributes: [
+//       //   ['nutr_val', 'Nutrition value'],
+//       //   ['add_nutr_mark', 'Add nutrition mark'],
+//       //   ['min', 'Min'],
+//       //   ['max', 'Max'],
+//       //   ['df', 'DF'],
+//       //   ['low_eb', 'Low eb'],
+//       //   ['up_eb', 'Up eb'],
+//       //   ['stat_cmt', 'Static CMT'],
+//       //   ['cc', 'CC']
+//       // ]
 //     },
 //     {
-//       model: trydb.NutritionDefinition,
-//       attributes: [
-//         ['units', 'Units'],
-//         ['tagname', 'Tag name'],
-//         ['nutrdesc', 'Description']
-//       ]
-//     },
-//     {
-//       model: trydb.SourceCD,
-//       attributes: [
-//         ['src_cd', 'Source CD'],
-//         ['srccd_desc', 'Description']
-//       ]
+//       model: trydb.NutritionDefinition
 //     }
 //   ]
 // }).then(
