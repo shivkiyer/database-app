@@ -77,7 +77,7 @@ export class DbHomeComponent implements OnInit {
                       if (rowIndex === 0) {
                         this.tableOrder.push(colPrefix + '.' + subItem);
                       }
-                      if (row[colPrefix] !== undefined) {
+                      if (row[colPrefix] !== undefined && row[colPrefix] !== null) {
                         rowContents.push(row[colPrefix][subItem]);
                       }
                     });

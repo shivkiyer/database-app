@@ -58,53 +58,6 @@ app.get('/api/:id', (req, res) => {
 });
 
 
-// trydb = require('./db/models/usda');
-// trydb.DataSourceLine.findAll({
-//   include: [
-//     {
-//       model:trydb.DataSrc,
-//       attributes: [
-//         ['datasrc_id', 'ID'],
-//         ['authors', 'Authors'],
-//         ['title', 'Title'],
-//         ['year', 'Year'],
-//         ['journal', 'Journal'],
-//         ['vol_city', 'Volume city'],
-//         ['issue_state', 'Issue state'],
-//         ['start_page', 'Start page'],
-//         ['end_page', 'End page']
-//       ]
-//     },
-//     {
-//       model: trydb.FoodDescription
-//       // attributes: [
-//       //   ['nutr_val', 'Nutrition value'],
-//       //   ['add_nutr_mark', 'Add nutrition mark'],
-//       //   ['min', 'Min'],
-//       //   ['max', 'Max'],
-//       //   ['df', 'DF'],
-//       //   ['low_eb', 'Low eb'],
-//       //   ['up_eb', 'Up eb'],
-//       //   ['stat_cmt', 'Static CMT'],
-//       //   ['cc', 'CC']
-//       // ]
-//     },
-//     {
-//       model: trydb.NutritionDefinition
-//     }
-//   ]
-// }).then(
-//   (items) => {
-//     items.forEach((item) => {
-//       console.log(JSON.stringify(item));
-//     });
-//   }
-// ).catch(
-//   (e) => {
-//     console.log(e);
-//   }
-// );
-
 app.get('/api/:id/:name/:offset/:limit', (req, res) => {
   let dbIndex = parseInt(req.params.id);
   let dbOffset = parseInt(req.params.offset);
