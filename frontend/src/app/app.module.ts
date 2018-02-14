@@ -10,7 +10,6 @@ import { DbHomeComponent } from './db-home/db-home.component';
 import { AppFooterComponent } from './page-sections/app-footer/app-footer.component';
 import { AppHeaderComponent } from './page-sections/app-header/app-header.component';
 
-import { ServerConfigurationService } from './shared/services/server-config.service';
 import { DBMethodsService } from './shared/services/db-methods.service';
 
 @NgModule({
@@ -28,7 +27,6 @@ import { DBMethodsService } from './shared/services/db-methods.service';
     ReactiveFormsModule
   ],
   providers: [
-    ServerConfigurationService,
     DBMethodsService
   ],
   bootstrap: [AppComponent]

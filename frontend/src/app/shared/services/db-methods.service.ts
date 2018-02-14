@@ -3,7 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import { ServerConfigurationService } from './server-config.service';
+// import { ServerConfigurationService } from './server-config.service';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class DBMethodsService {
@@ -12,8 +13,7 @@ export class DBMethodsService {
   dbList = [];
   dbTables = [];
 
-  constructor(private http: Http,
-              private serverConfig: ServerConfigurationService) {}
+  constructor(private http: Http) {}
 
   dbInit(index: number) {
     this.dbIndex = index;
@@ -24,12 +24,12 @@ export class DBMethodsService {
   }
 
   getDBTableList(): Observable<any> {
-    return this.http.get(this.serverConfig.baseApi.value + '/api/' + this.dbIndex)
+    return this.http.get(environment.baseApi.value + '/api/' + this.dbIndex)
         .map(response => response.json());
   }
 
   getTableContents(tableName: string, offset: number, limit: number): Observable<any> {
-    return this.http.get(this.serverConfig.baseApi.value + '/api/' + this.dbIndex + '/' + tableName + '/'+ offset + '/' + limit)
+    return this.http.get(environment.baseApi.value + '/api/' + this.dbIndex + '/' + tableName + '/'+ offset + '/' + limit)
         .map(response => response.json());
   }
 }

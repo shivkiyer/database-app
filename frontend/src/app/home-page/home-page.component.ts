@@ -3,8 +3,8 @@ import { Http } from '@angular/http';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { ServerConfigurationService } from './../shared/services/server-config.service';
 import { DBMethodsService } from './../shared/services/db-methods.service';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +18,6 @@ export class HomePageComponent implements OnInit {
   chooseDB: FormGroup;
 
   constructor(private http: Http,
-              private serverConfig: ServerConfigurationService,
               private dbMethodsService: DBMethodsService,
               private router: Router) { }
 
@@ -30,7 +29,7 @@ export class HomePageComponent implements OnInit {
       'db': new FormControl(0, Validators.required)
     });
 
-    this.http.get(this.serverConfig.baseApi.value).subscribe(
+    this.http.get(environment.baseApi.value + '/api').subscribe(
       (response) => {
         this.dbList = response.json();
         this.dbMethodsService.dbRefreshList(this.dbList);

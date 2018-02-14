@@ -10,6 +10,7 @@ var dbUtils = require('./db/methods/dbUtils');
 var app = express();
 var htmlPATH = path.join(path.join(path.dirname(__dirname), 'frontend'), 'dist');
 app.use(express.static(htmlPATH));
+app.set('views', htmlPATH);
 
 var port = process.env.PORT||3000;
 
@@ -34,7 +35,7 @@ app.use(function (req, res, next) {
 });
 
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   if (dbList.length > 0) {
     res.send(dbList);
   } else {

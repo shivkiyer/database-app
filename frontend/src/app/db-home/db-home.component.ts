@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { ServerConfigurationService } from './../shared/services/server-config.service';
 import { DBMethodsService } from './../shared/services/db-methods.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class DbHomeComponent implements OnInit {
   rowLimit: number = 100;
 
   constructor(private router: Router,
-              private serverConfig: ServerConfigurationService,
               private dbMethodsService: DBMethodsService) { }
 
   ngOnInit() {
