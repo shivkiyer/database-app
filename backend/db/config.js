@@ -5,10 +5,16 @@ var dbList = [
   'Food and nutrients'
 ];
 
+var db_url;
+
+if (process.env.DATABASE_URL) {
+  db_url = DATABASE_URL;
+} else {
+  db_url = 'postgres://databaseuser:database123@localhost:5432/dellstoreheroku';
+}
+
+
 var dbConfigParams = {
-  username: 'databaseuser',
-  password: 'database123',
-  host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: sequelize.op,
   logging: false,
@@ -25,11 +31,10 @@ var allSQLConnection = [];
 for (let dbName of dbList) {
   switch (dbName) {
     case 'DVD Store':
-        dbConfigParams['database'] = 'dellstore2';
-        allSQLConnection.push(new sequelize(dbConfigParams));
+        allSQLConnection.push(new sequelize(db_url, dbConfigParams));
         break;
     case 'Food and nutrients':
-        dbConfigParams['database'] = 'usda';
+        // dbConfigParams['database'] = 'usda';
         allSQLConnection.push(new sequelize(dbConfigParams));
         break;
   }
