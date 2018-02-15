@@ -1,6 +1,6 @@
 {
   "scripts": {
     "start": "node backend/server.js",
-    "heroku-postbuild": "cd frontend && npm install && ng build --env=prod"
+    "heroku-postbuild": "cd frontend && npm install && npm run build:prod"
   }
 }
