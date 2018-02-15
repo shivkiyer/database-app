@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "cd frontend && npm install && ng build --env=prod; cd ../backend && npm install && node server.js",
     "build": "cd frontend && npm install && ng build --env=prod; cd ../backend && npm install"
   }
 }
