@@ -8,7 +8,7 @@ var dbList = [
 var db_url;
 
 if (process.env.DATABASE_URL) {
-  db_url = DATABASE_URL;
+  db_url = process.env.DATABASE_URL;
 } else {
   db_url = 'postgres://databaseuser:database123@localhost:5432/dellstoreheroku';
 }
